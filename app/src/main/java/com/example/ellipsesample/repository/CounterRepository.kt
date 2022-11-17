@@ -1,26 +1,19 @@
-package com.example.ellipsecounter.repository
+package com.example.ellipsesample.repository
 
-import android.util.Log
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import com.example.ellipsesample.datasource.CounterDataSource
-import com.example.ellipsesample.datasource.ICounterDataSource
-import kotlinx.coroutines.CoroutineDispatcher
+import com.example.ellipsesample.datasource.CounterDataSourceImpl
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CounterRepository @Inject constructor(
-    private val counterDataSource: CounterDataSource
+    private val counterDataSource: CounterDataSourceImpl
 ) {
-    suspend fun getLastNumber(): Flow<Int> {
+    suspend fun observeLastNumber(): Flow<Int> {
         return counterDataSource.readLastNumber()
     }
 
-    suspend fun saveNumber(number: Int){
+    suspend fun saveNumber(number: Int) {
         counterDataSource.saveNumber(number)
     }
 

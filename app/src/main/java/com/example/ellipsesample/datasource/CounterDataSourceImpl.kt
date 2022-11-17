@@ -1,20 +1,17 @@
 package com.example.ellipsesample.datasource
 
-import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
-
-class CounterDataSource @Inject constructor(
+class CounterDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
-): ICounterDataSource{
+) : CounterDataSource {
     override suspend fun readLastNumber(): Flow<Int> = dataStore.data.map {
         it[COUNTER] ?: 0
     }
@@ -31,13 +28,14 @@ class CounterDataSource @Inject constructor(
             it[COUNTER] = number
         }
     }
-        companion object PreferencesKeys {
+
+    companion object PreferencesKeys {
         val COUNTER = intPreferencesKey("counter")
     }
 }
 
 
-interface ICounterDataSource {
+interface CounterDataSource {
     suspend fun readLastNumber(): Flow<Int>
     suspend fun saveNumber(number: Int)
 }

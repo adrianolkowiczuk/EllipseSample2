@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+message UserPreferences {
+  int64 counter = 1;
+}
